@@ -1,0 +1,55 @@
+Firebase Realtime Database Security Rules
+===========================================
+
+Copy these rules to your Firebase Console:
+https://console.firebase.google.com → daily-chores-b0e54 → Realtime Database → Rules
+
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      }
+    },
+    "admins": {
+      "$uid": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      }
+    },
+    "tasks": {
+      ".read": true,
+      ".write": true,
+      "$taskId": {
+        ".validate": "newData.hasChildren(['name', 'amount', 'frequency', 'createdAt', 'createdBy'])"
+      }
+    },
+    "assignments": {
+      ".read": true,
+      ".write": true,
+      "$uid": {
+        ".write": true
+      }
+    },
+    "completions": {
+      ".read": true,
+      ".write": true
+    },
+    "dailyEarnings": {
+      ".read": true,
+      ".write": true
+    },
+    "monthlyEarnings": {
+      ".read": true,
+      ".write": true
+    }
+  }
+}
+
+Steps:
+1. Open Firebase Console → daily-chores-b0e54
+2. Go to Realtime Database → Rules tab
+3. Replace ALL content with the rules above
+4. Click "Publish"
+5. Try creating a task again

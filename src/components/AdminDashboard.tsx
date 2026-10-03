@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Users, Check, Plus } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { db } from '../utils/firebase'
 import { ref, onValue, set } from 'firebase/database'
@@ -105,13 +106,15 @@ export function AdminDashboard() {
           className={`${styles.tab} ${activeTab === 'users' ? styles.active : ''}`}
           onClick={() => setActiveTab('users')}
         >
-          👥 Users
+          <Users size={18} />
+          <span>Users</span>
         </button>
         <button
           className={`${styles.tab} ${activeTab === 'tasks' ? styles.active : ''}`}
           onClick={() => setActiveTab('tasks')}
         >
-          ✓ Tasks
+          <Check size={18} />
+          <span>Tasks</span>
         </button>
       </div>
 
@@ -123,8 +126,10 @@ export function AdminDashboard() {
               <button
                 className={styles.createBtn}
                 onClick={() => setShowCreateUser(!showCreateUser)}
+                title="Create new user"
               >
-                + New User
+                <Plus size={18} />
+                <span>New User</span>
               </button>
             </div>
 
@@ -212,14 +217,18 @@ export function AdminDashboard() {
                 <button
                   className={styles.createBtn}
                   onClick={() => setShowCreateTask(true)}
+                  title="Create new task"
                 >
-                  + New Task
+                  <Plus size={18} />
+                  <span>New Task</span>
                 </button>
                 <button
                   className={styles.createBtn}
                   onClick={() => setShowAssignTask(true)}
+                  title="Assign tasks to users"
                 >
-                  ✓ Assign
+                  <Check size={18} />
+                  <span>Assign</span>
                 </button>
               </div>
             </div>

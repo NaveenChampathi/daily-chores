@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Lock, LogOut } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { db } from '../utils/firebase'
 import { ref, update } from 'firebase/database'
@@ -80,7 +81,8 @@ export function SettingsScreen() {
             className={styles.settingButton}
             onClick={() => setShowChangePasscode(!showChangePasscode)}
           >
-            {showChangePasscode ? '✕ Cancel' : '🔐 Change Passcode'}
+            <Lock size={18} />
+            <span>{showChangePasscode ? 'Cancel' : 'Change Passcode'}</span>
           </button>
 
           {showChangePasscode && (
@@ -142,7 +144,8 @@ export function SettingsScreen() {
 
         <div className={styles.dangerZone}>
           <button className={styles.logoutButton} onClick={logout}>
-            🚪 Logout
+            <LogOut size={18} />
+            <span>Logout</span>
           </button>
         </div>
       </div>

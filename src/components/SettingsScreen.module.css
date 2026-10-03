@@ -53,16 +53,20 @@
 
 .settingButton {
   width: 100%;
-  padding: 12px;
+  padding: 10px 12px;
   background: #f3f4f6;
   color: #1f2937;
   border: 2px solid #e5e7eb;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   margin-top: 12px;
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .settingButton:hover {
@@ -163,7 +167,7 @@
 }
 
 .logoutButton {
-  padding: 12px 24px;
+  padding: 10px 20px;
   background: #fee2e2;
   color: #dc2626;
   border: 2px solid #fecaca;
@@ -171,6 +175,9 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .logoutButton:hover {

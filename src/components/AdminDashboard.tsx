@@ -7,6 +7,7 @@ import { hashPasscode, generatePasscode } from '../utils/auth'
 import { Header } from './Header'
 import { CreateTaskModal } from './CreateTaskModal'
 import { AssignTaskModal } from './AssignTaskModal'
+import { EditTaskModal } from './EditTaskModal'
 import styles from './AdminDashboard.module.css'
 
 type AdminTab = 'users' | 'tasks'
@@ -21,6 +22,7 @@ export function AdminDashboard() {
   const [showCreateUser, setShowCreateUser] = useState(false)
   const [showCreateTask, setShowCreateTask] = useState(false)
   const [showAssignTask, setShowAssignTask] = useState(false)
+  const [editingTaskId, setEditingTaskId] = useState<string | null>(null)
   const [newUserName, setNewUserName] = useState('')
   const [newUserId, setNewUserId] = useState('')
   const [newUserPasscode, setNewUserPasscode] = useState('')
@@ -228,7 +230,11 @@ export function AdminDashboard() {
                 <div className={styles.empty}>No tasks yet</div>
               ) : (
                 Object.entries(tasks).map(([taskId, task]) => (
-                  <div key={taskId} className={styles.taskItem}>
+                  <div
+                    key={taskId}
+                    className={styles.taskItem}
+                    onClick={() => setEditingTaskId(taskId)}
+                  >
                     <div className={styles.taskLeft}>
                       <div className={styles.taskName}>{task.name}</div>
                       <div className={styles.taskDesc}>{task.description}</div>
@@ -254,6 +260,14 @@ export function AdminDashboard() {
             onSuccess={() => setShowAssignTask(false)}
             users={users}
             tasks={tasks}
+          />
+        )}
+
+        {editingTaskId && tasks[editingTaskId] && (
+          <EditTaskModal
+            task={{ ...tasks[editingTaskId], id: editingTaskId }}
+            onClose={() => setEditingTaskId(null)}
+            onSuccess={() => setEditingTaskId(null)}
           />
         )}
       </div>

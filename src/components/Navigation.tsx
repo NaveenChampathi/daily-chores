@@ -1,8 +1,8 @@
 import styles from './Navigation.module.css'
 
 interface NavigationProps {
-  activeTab: 'daily' | 'monthly'
-  onTabChange: (tab: 'daily' | 'monthly') => void
+  activeTab: 'daily' | 'monthly' | 'settings'
+  onTabChange: (tab: 'daily' | 'monthly' | 'settings') => void
 }
 
 export function Navigation({ activeTab, onTabChange }: NavigationProps) {
@@ -21,6 +21,13 @@ export function Navigation({ activeTab, onTabChange }: NavigationProps) {
       >
         <span className={styles.icon}>📊</span>
         <span>Month</span>
+      </button>
+      <button
+        className={`${styles.tab} ${activeTab === 'settings' ? styles.active : ''}`}
+        onClick={() => onTabChange('settings')}
+      >
+        <span className={styles.icon}>⚙️</span>
+        <span>Settings</span>
       </button>
     </nav>
   )

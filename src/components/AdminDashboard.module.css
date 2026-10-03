@@ -225,6 +225,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.taskItem:hover {
+  background: #f9fafb;
+  border-color: #059669;
+}
+
+.taskItem:active {
+  transform: scale(0.98);
 }
 
 .taskLeft {

@@ -1,6 +1,7 @@
 import { useAuth } from './context/AuthContext'
 import { AuthScreen } from './components/AuthScreen'
-import { DailyDashboard } from './components/DailyDashboard'
+import { UserDashboard } from './components/UserDashboard'
+import { AdminDashboard } from './components/AdminDashboard'
 import { TaskProvider } from './context/TaskContext'
 
 export function App() {
@@ -21,16 +22,14 @@ export function App() {
   if (currentUser) {
     return (
       <TaskProvider userId={currentUser.id}>
-        <DailyDashboard />
+        <UserDashboard />
       </TaskProvider>
     )
   }
 
-  // TODO: Add admin dashboard
-  return (
-    <div style={{ padding: '20px', textAlign: 'center' }}>
-      <h1>Admin Dashboard - {currentAdmin?.displayName}</h1>
-      <p>Admin dashboard coming soon...</p>
-    </div>
-  )
+  if (currentAdmin) {
+    return <AdminDashboard />
+  }
+
+  return null
 }

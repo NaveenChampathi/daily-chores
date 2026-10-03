@@ -1,3 +1,37 @@
+# Dependencies
+node_modules
+package-lock.json
+
+# Build artifacts
+dist
+dist-ssr
+build
+*.local
+
+# Environment variables - NEVER commit
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+
+# Firebase - NEVER commit credentials
+.firebase/
+.firebaserc
+firebase-debug.log
+*-credentials.json
+service-account.json
+
+# API Keys & Secrets
+*.key
+*.pem
+*.p8
+credentials.json
+
+# Configuration with sensitive data
+setup.json
+!setup.json.example
+
 # Logs
 logs
 *.log
@@ -7,21 +41,35 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
-.env
-.env.local
-.env.*.local
-
-# IDE
+# IDE & Editors
 .vscode
 .idea
 *.swp
 *.swo
 *~
+*.sublime-project
+*.sublime-workspace
+.project
+.settings
 
-# OS
+# OS & System files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
+.AppleDouble
+.LSOverride
+
+# TypeScript
+*.tsbuildinfo
+
+# Testing
+coverage
+.nyc_output
+
+# Misc
+.cache
+.pnpm-store

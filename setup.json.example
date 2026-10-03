@@ -1,0 +1,35 @@
+{
+  "admins": {
+    "username": {
+      "displayName": "Display Name",
+      "passcodeHash": "HASH_HERE",
+      "createdAt": 1696358400000
+    }
+  },
+  "users": {
+    "userid": {
+      "id": "userid",
+      "displayName": "Display Name",
+      "passcodeHash": "HASH_HERE",
+      "isAdmin": false,
+      "createdAt": 1696358400000
+    }
+  },
+  "tasks": {
+    "taskid": {
+      "name": "Task Name",
+      "amount": 100,
+      "frequency": "daily",
+      "createdAt": 1696358400000,
+      "createdBy": "admin"
+    }
+  },
+  "assignments": {
+    "userid": {
+      "taskid": {
+        "assignedAt": 1696358400000,
+        "amount": 100
+      }
+    }
+  }
+}

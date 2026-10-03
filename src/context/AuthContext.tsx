@@ -1,8 +1,11 @@
-import { createContext, useContext, useState, useCallback } from 'react'
+import { createContext, useContext, useState, useCallback, useEffect } from 'react'
 import { db } from '../utils/firebase'
 import { ref, get } from 'firebase/database'
 import { verifyPasscode } from '../utils/auth'
 import { User, Admin, AuthState } from '../types'
+
+const STORAGE_KEY_USER = 'daily_chores_user'
+const STORAGE_KEY_ADMIN = 'daily_chores_admin'
 
 interface AuthContextType extends AuthState {
   loginUser: (passcode: string) => Promise<void>
@@ -16,9 +19,42 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [authState, setAuthState] = useState<AuthState>({
     currentUser: null,
     currentAdmin: null,
-    loading: false,
+    loading: true,
     error: undefined,
   })
+
+  // Load persisted login state on mount
+  useEffect(() => {
+    try {
+      const storedUser = localStorage.getItem(STORAGE_KEY_USER)
+      const storedAdmin = localStorage.getItem(STORAGE_KEY_ADMIN)
+
+      if (storedUser) {
+        setAuthState(prev => ({
+          ...prev,
+          currentUser: JSON.parse(storedUser),
+          loading: false,
+        }))
+      } else if (storedAdmin) {
+        setAuthState(prev => ({
+          ...prev,
+          currentAdmin: JSON.parse(storedAdmin),
+          loading: false,
+        }))
+      } else {
+        setAuthState(prev => ({
+          ...prev,
+          loading: false,
+        }))
+      }
+    } catch (err) {
+      console.error('Failed to load persisted auth state:', err)
+      setAuthState(prev => ({
+        ...prev,
+        loading: false,
+      }))
+    }
+  }, [])
 
   const loginUser = useCallback(async (passcode: string) => {
     try {
@@ -53,6 +89,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         currentAdmin: null,
         loading: false,
       }))
+      localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(matchedUser))
+      localStorage.removeItem(STORAGE_KEY_ADMIN)
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Login failed'
       setAuthState(prev => ({
@@ -87,6 +125,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         currentUser: null,
         loading: false,
       }))
+      localStorage.setItem(STORAGE_KEY_ADMIN, JSON.stringify(adminData))
+      localStorage.removeItem(STORAGE_KEY_USER)
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Login failed'
       setAuthState(prev => ({
@@ -105,6 +145,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       loading: false,
       error: undefined,
     })
+    localStorage.removeItem(STORAGE_KEY_USER)
+    localStorage.removeItem(STORAGE_KEY_ADMIN)
   }, [])
 
   const value: AuthContextType = {

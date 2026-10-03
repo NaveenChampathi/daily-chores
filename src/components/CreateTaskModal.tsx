@@ -35,14 +35,20 @@ export function CreateTaskModal({ onClose, onSuccess }: CreateTaskModalProps) {
       const tasksRef = ref(db, 'tasks')
       const newTaskRef = push(tasksRef)
 
-      await set(newTaskRef, {
+      const taskData: any = {
         name: name.trim(),
-        description: description.trim() || undefined,
         amount: amountNum,
         frequency: 'daily',
         createdAt: Date.now(),
         createdBy: 'admin',
-      })
+      }
+
+      // Only add description if it's not empty
+      if (description.trim()) {
+        taskData.description = description.trim()
+      }
+
+      await set(newTaskRef, taskData)
 
       setName('')
       setDescription('')

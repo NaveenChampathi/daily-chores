@@ -36,11 +36,18 @@ export function EditTaskModal({ task, onClose, onSuccess }: EditTaskModalProps) 
     try {
       setLoading(true)
       const taskRef = ref(db, `tasks/${task.id}`)
-      await update(taskRef, {
+
+      const updateData: any = {
         name: name.trim(),
-        description: description.trim() || undefined,
         amount: amountNum,
-      })
+      }
+
+      // Only update description if it's not empty
+      if (description.trim()) {
+        updateData.description = description.trim()
+      }
+
+      await update(taskRef, updateData)
 
       onSuccess()
       onClose()

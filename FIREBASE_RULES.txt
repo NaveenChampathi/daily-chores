@@ -7,42 +7,80 @@ https://console.firebase.google.com → daily-chores-b0e54 → Realtime Database
 {
   "rules": {
     "users": {
+      ".read": true,
+      ".write": true,
       "$uid": {
-        ".read": "auth != null",
-        ".write": "auth != null"
+        ".read": true,
+        ".write": true
       }
     },
     "admins": {
-      "$uid": {
-        ".read": "auth != null",
-        ".write": "auth != null"
+      ".read": true,
+      ".write": true,
+      "$adminId": {
+        ".read": true,
+        ".write": true
       }
     },
     "tasks": {
       ".read": true,
       ".write": true,
       "$taskId": {
-        ".validate": "newData.hasChildren(['name', 'amount', 'frequency', 'createdAt', 'createdBy'])"
+        ".read": true,
+        ".write": true
       }
     },
     "assignments": {
       ".read": true,
       ".write": true,
       "$uid": {
-        ".write": true
+        ".read": true,
+        ".write": true,
+        "$taskId": {
+          ".read": true,
+          ".write": true
+        }
       }
     },
     "completions": {
       ".read": true,
-      ".write": true
+      ".write": true,
+      "$date": {
+        ".read": true,
+        ".write": true,
+        "$uid": {
+          ".read": true,
+          ".write": true,
+          "$taskId": {
+            ".read": true,
+            ".write": true
+          }
+        }
+      }
     },
     "dailyEarnings": {
       ".read": true,
-      ".write": true
+      ".write": true,
+      "$date": {
+        ".read": true,
+        ".write": true,
+        "$uid": {
+          ".read": true,
+          ".write": true
+        }
+      }
     },
     "monthlyEarnings": {
       ".read": true,
-      ".write": true
+      ".write": true,
+      "$month": {
+        ".read": true,
+        ".write": true,
+        "$uid": {
+          ".read": true,
+          ".write": true
+        }
+      }
     }
   }
 }
@@ -52,4 +90,7 @@ Steps:
 2. Go to Realtime Database → Rules tab
 3. Replace ALL content with the rules above
 4. Click "Publish"
-5. Try creating a task again
+5. Refresh your browser and try again
+
+NOTE: These are test/development rules with no authentication.
+For production, restrict read/write based on user authentication.

@@ -5,6 +5,8 @@ import { ref, onValue, set } from 'firebase/database'
 import { User, Task } from '../types'
 import { hashPasscode, generatePasscode } from '../utils/auth'
 import { Header } from './Header'
+import { CreateTaskModal } from './CreateTaskModal'
+import { AssignTaskModal } from './AssignTaskModal'
 import styles from './AdminDashboard.module.css'
 
 type AdminTab = 'users' | 'tasks'
@@ -17,6 +19,8 @@ export function AdminDashboard() {
   const [userEarnings, setUserEarnings] = useState<Record<string, Record<string, number>>>({})
   const [loading, setLoading] = useState(true)
   const [showCreateUser, setShowCreateUser] = useState(false)
+  const [showCreateTask, setShowCreateTask] = useState(false)
+  const [showAssignTask, setShowAssignTask] = useState(false)
   const [newUserName, setNewUserName] = useState('')
   const [newUserId, setNewUserId] = useState('')
   const [newUserPasscode, setNewUserPasscode] = useState('')
@@ -200,7 +204,23 @@ export function AdminDashboard() {
           </>
         ) : (
           <>
-            <h2 className={styles.sectionTitle}>Tasks</h2>
+            <div className={styles.sectionHeader}>
+              <h2 className={styles.sectionTitle}>Manage Tasks</h2>
+              <div className={styles.buttons}>
+                <button
+                  className={styles.createBtn}
+                  onClick={() => setShowCreateTask(true)}
+                >
+                  + New Task
+                </button>
+                <button
+                  className={styles.createBtn}
+                  onClick={() => setShowAssignTask(true)}
+                >
+                  ✓ Assign
+                </button>
+              </div>
+            </div>
             <div className={styles.tasksList}>
               {loading ? (
                 <div className={styles.loading}>Loading tasks...</div>
@@ -219,6 +239,22 @@ export function AdminDashboard() {
               )}
             </div>
           </>
+        )}
+
+        {showCreateTask && (
+          <CreateTaskModal
+            onClose={() => setShowCreateTask(false)}
+            onSuccess={() => setShowCreateTask(false)}
+          />
+        )}
+
+        {showAssignTask && (
+          <AssignTaskModal
+            onClose={() => setShowAssignTask(false)}
+            onSuccess={() => setShowAssignTask(false)}
+            users={users}
+            tasks={tasks}
+          />
         )}
       </div>
     </div>

@@ -45,6 +45,12 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  gap: 12px;
+}
+
+.sectionHeader .buttons {
+  display: flex;
+  gap: 8px;
 }
 
 .sectionTitle {

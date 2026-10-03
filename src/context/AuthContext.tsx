@@ -5,7 +5,7 @@ import { verifyPasscode } from '../utils/auth'
 import { User, Admin, AuthState } from '../types'
 
 interface AuthContextType extends AuthState {
-  loginUser: (userId: string, passcode: string) => Promise<void>
+  loginUser: (passcode: string) => Promise<void>
   loginAdmin: (adminId: string, passcode: string) => Promise<void>
   logout: () => void
 }
@@ -20,26 +20,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     error: undefined,
   })
 
-  const loginUser = useCallback(async (userId: string, passcode: string) => {
+  const loginUser = useCallback(async (passcode: string) => {
     try {
       setAuthState(prev => ({ ...prev, loading: true, error: undefined }))
 
-      const userRef = ref(db, `users/${userId}`)
-      const snapshot = await get(userRef)
+      const usersRef = ref(db, 'users')
+      const snapshot = await get(usersRef)
 
       if (!snapshot.exists()) {
-        throw new Error('User not found')
+        throw new Error('No users found')
       }
 
-      const userData = snapshot.val() as User
+      const users = snapshot.val() as Record<string, User>
 
-      if (!verifyPasscode(passcode, userData.passcodeHash)) {
+      // Find user with matching passcode
+      let matchedUser: User | null = null
+      for (const userId in users) {
+        const user = users[userId]
+        if (verifyPasscode(passcode, user.passcodeHash)) {
+          matchedUser = user
+          break
+        }
+      }
+
+      if (!matchedUser) {
         throw new Error('Invalid passcode')
       }
 
       setAuthState(prev => ({
         ...prev,
-        currentUser: userData,
+        currentUser: matchedUser,
         currentAdmin: null,
         loading: false,
       }))

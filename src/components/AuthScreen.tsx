@@ -7,7 +7,6 @@ type LoginMode = 'user' | 'admin'
 export function AuthScreen() {
   const { loginUser, loginAdmin, loading, error } = useAuth()
   const [mode, setMode] = useState<LoginMode>('user')
-  const [userId, setUserId] = useState('')
   const [adminId, setAdminId] = useState('')
   const [passcode, setPasscode] = useState('')
   const [localError, setLocalError] = useState<string | null>(null)
@@ -16,13 +15,13 @@ export function AuthScreen() {
     e.preventDefault()
     setLocalError(null)
 
-    if (!userId.trim() || !passcode.trim()) {
-      setLocalError('Please fill in all fields')
+    if (!passcode.trim()) {
+      setLocalError('Please enter your passcode')
       return
     }
 
     try {
-      await loginUser(userId.trim(), passcode)
+      await loginUser(passcode)
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Login failed'
       setLocalError(msg)
@@ -70,7 +69,7 @@ export function AuthScreen() {
             onClick={() => {
               setMode('admin')
               setLocalError(null)
-              setUserId('')
+              setPasscode('')
             }}
           >
             Admin Login
@@ -80,17 +79,6 @@ export function AuthScreen() {
         {mode === 'user' ? (
           <form onSubmit={handleUserLogin} className={styles.form}>
             <div className={styles.group}>
-              <label htmlFor="userId">User ID / Name</label>
-              <input
-                id="userId"
-                type="text"
-                placeholder="Enter your user ID"
-                value={userId}
-                onChange={e => setUserId(e.target.value)}
-                disabled={loading}
-              />
-            </div>
-            <div className={styles.group}>
               <label htmlFor="passcode">Passcode</label>
               <input
                 id="passcode"
@@ -99,6 +87,7 @@ export function AuthScreen() {
                 value={passcode}
                 onChange={e => setPasscode(e.target.value)}
                 disabled={loading}
+                autoFocus
               />
             </div>
             {currentError && <div className={styles.error}>{currentError}</div>}
@@ -113,7 +102,7 @@ export function AuthScreen() {
         ) : (
           <form onSubmit={handleAdminLogin} className={styles.form}>
             <div className={styles.group}>
-              <label htmlFor="adminId">Admin ID / Name</label>
+              <label htmlFor="adminId">Admin ID</label>
               <input
                 id="adminId"
                 type="text"
@@ -121,6 +110,7 @@ export function AuthScreen() {
                 value={adminId}
                 onChange={e => setAdminId(e.target.value)}
                 disabled={loading}
+                autoFocus
               />
             </div>
             <div className={styles.group}>

@@ -1,0 +1,85 @@
+.card {
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.card:active {
+  background: #f3f4f6;
+  border-color: #059669;
+}
+
+.card.completed {
+  background: #f0fdf4;
+  border-color: #059669;
+}
+
+.card.completed .name {
+  text-decoration: line-through;
+  color: #9ca3af;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.value {
+  font-size: 14px;
+  color: #059669;
+  font-weight: 700;
+}
+
+.status {
+  font-size: 12px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkbox {
+  width: 48px;
+  height: 48px;
+  border: 2px solid #d1d5db;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  transition: all 0.2s ease;
+  font-weight: 700;
+}
+
+.checkbox:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.checkbox:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.checkbox.checked {
+  background: #059669;
+  border-color: #059669;
+  color: white;
+}

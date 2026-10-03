@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { db } from '../utils/firebase'
-import { ref, update, remove } from 'firebase/database'
+import { ref, update, remove, get } from 'firebase/database'
 import { Task } from '../types'
 import styles from './EditTaskModal.module.css'
 
@@ -60,6 +60,24 @@ export function EditTaskModal({ task, onClose, onSuccess }: EditTaskModalProps) 
 
     try {
       setLoading(true)
+
+      // Remove task from all user assignments
+      const assignmentsRef = ref(db, 'assignments')
+      const assignmentsSnapshot = await get(assignmentsRef)
+
+      if (assignmentsSnapshot.exists()) {
+        const allAssignments = assignmentsSnapshot.val()
+
+        // Remove this task from each user's assignments
+        for (const userId in allAssignments) {
+          if (task.id in allAssignments[userId]) {
+            const userTaskRef = ref(db, `assignments/${userId}/${task.id}`)
+            await remove(userTaskRef)
+          }
+        }
+      }
+
+      // Remove the task itself
       const taskRef = ref(db, `tasks/${task.id}`)
       await remove(taskRef)
 

@@ -1,3 +1,4 @@
+import { CheckCircle, BarChart3, Settings } from 'lucide-react'
 import styles from './Navigation.module.css'
 
 interface NavigationProps {
@@ -11,22 +12,25 @@ export function Navigation({ activeTab, onTabChange }: NavigationProps) {
       <button
         className={`${styles.tab} ${activeTab === 'daily' ? styles.active : ''}`}
         onClick={() => onTabChange('daily')}
+        title="Today"
       >
-        <span className={styles.icon}>📋</span>
+        <CheckCircle size={24} />
         <span>Today</span>
       </button>
       <button
         className={`${styles.tab} ${activeTab === 'monthly' ? styles.active : ''}`}
         onClick={() => onTabChange('monthly')}
+        title="Monthly"
       >
-        <span className={styles.icon}>📊</span>
+        <BarChart3 size={24} />
         <span>Month</span>
       </button>
       <button
         className={`${styles.tab} ${activeTab === 'settings' ? styles.active : ''}`}
         onClick={() => onTabChange('settings')}
+        title="Settings"
       >
-        <span className={styles.icon}>⚙️</span>
+        <Settings size={24} />
         <span>Settings</span>
       </button>
     </nav>

@@ -15,24 +15,22 @@
 .earningsCard {
   background: linear-gradient(135deg, #059669 0%, #047857 100%);
   color: white;
-  padding: 24px;
+  padding: 20px 24px;
   border-radius: 12px;
   margin-bottom: 28px;
   text-align: center;
 }
 
-.earningsLabel {
-  font-size: 14px;
-  font-weight: 500;
-  opacity: 0.9;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.earningsAmount {
+  font-size: 44px;
+  font-weight: 700;
+  margin-bottom: 6px;
 }
 
-.earningsAmount {
-  font-size: 48px;
-  font-weight: 700;
+.earningsDate {
+  font-size: 12px;
+  opacity: 0.9;
+  font-weight: 500;
 }
 
 .section {

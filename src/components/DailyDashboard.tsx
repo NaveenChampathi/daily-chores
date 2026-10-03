@@ -28,8 +28,10 @@ export function DailyDashboard() {
 
       <div className={styles.content}>
         <div className={styles.earningsCard}>
-          <h2 className={styles.earningsLabel}>Earned Today</h2>
           <div className={styles.earningsAmount}>₹{dailyEarnings}</div>
+          <div className={styles.earningsDate}>
+            {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+          </div>
         </div>
 
         <div className={styles.section}>
